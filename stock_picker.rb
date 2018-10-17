@@ -14,8 +14,9 @@ def stock_picker(stock_prices)
   day = 0
   stock_size = stock_prices.size
 
-  while day < stock_size
+  while day < stock_size - 1 #Can end the loop one sooner as you would be checking the last and second last numbers
     day_after = day + 1
+
     while day_after < stock_size
       if  (stock_prices[day_after] - stock_prices[day]) > max_profit
         min = stock_prices[day]
@@ -26,6 +27,7 @@ def stock_picker(stock_prices)
       end
       day_after += 1
     end
+
     day += 1
   end
 
@@ -33,7 +35,7 @@ def stock_picker(stock_prices)
   puts ''
 end
 
-prices = [17, 3, 6, 9, 15, 8, 6, 1, 10]
+prices = [17, 3, 6, 9, 9, 8, 6, 1, 10]
 stock_picker(prices)
 prices = [3, 2, 2, 9, 15, 7, 5, 19, 1]
 stock_picker(prices)
