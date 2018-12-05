@@ -1,14 +1,13 @@
 # Rudi Boshoff
-
 require './colorize.rb'
 class Game
 
   def initialize
-    @rounds = 4
+    @rounds = 4 # default = 4
     @current_round = 0
     @player_combination = ""
-    @combination_size = 4
-    @max_range = 6
+    @combination_size = 4 # default = 4
+    @max_range = 6 # must be between 2 and 9
     @game_over = false
     @valid = false
   end
@@ -77,12 +76,12 @@ class Game
     puts ""
     puts "Each digit should be between 1 and #{@max_range}".yellow
     sleep(0.5)
-    puts "You have 4 rounds in which to guess the correct 4 digit combination".cyan
+    puts "You have 4 rounds in which to guess the correct #{@combination_size} digit combination".cyan
   end
 
   def generate_combination
     @combination = []
-    4.times do
+    @combination_size.times do
       @combination.push(1 + rand(@max_range)).to_s
     end
     # puts "the secret combination is: #{@combination.join("")}"
@@ -96,7 +95,7 @@ class Game
 
   def valid_input?
     @largest_combination = @max_range.to_s * @combination_size
-    if @player_combination =~ /\d\d\d\d/ && @player_combination.to_i <= @largest_combination.to_i
+    if @player_combination =~ /[1-#{@max_range}][1-#{@max_range}][1-#{@max_range}][1-#{@max_range}]/ && @player_combination.length == @combination_size
       @valid = true
     else
       @valid = false
@@ -162,7 +161,7 @@ class Game
 
   def game_restart
     #cannot clear console at such time in Repl.it
-    puts `clear`
+    # puts `clear`
 
     initialize
     game_start
