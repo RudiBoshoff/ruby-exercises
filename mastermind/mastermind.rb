@@ -2,6 +2,21 @@
 require './colorize.rb'
 class Game
   def initialize
+    initialize_default_variables
+  end
+
+  def game_run
+    while @restart
+      initialize_default_variables
+      game_start
+      restart_prompt
+      restart_game?
+    end
+  end
+
+  private
+
+  def initialize_default_variables
     @rounds = 4 # default = 4
     @current_round = 0
     @player_combination = ''
@@ -9,6 +24,7 @@ class Game
     @max_range = 6 # must be between 2 and 9
     @game_over = false
     @valid = false
+    @restart = true
   end
 
   def game_start
@@ -23,11 +39,8 @@ class Game
       increase_round
       game_over?
     end
-    game_won?
-    restart?
+    determine_winner
   end
-
-  private
 
   def display_rules
     puts 'HOW TO PLAY MASTERMIND'.cyan
@@ -44,7 +57,7 @@ class Game
     sleep 0.5
     puts 'HINTS'.cyan
     puts ''
-    sleep(0.5)
+    sleep 0.5
     puts '>>> If you get a digit absolutely correct, the digit will be coloured ' + 'green'.green + '.'
     sleep 0.5
     puts ''
@@ -52,29 +65,29 @@ class Game
     sleep 0.5
     puts ''
     puts '>>> If you get the digit wrong, the digit will be coloured ' + 'red'.red + '.'
-    sleep(0.5)
+    sleep 0.5
     puts ''
     puts 'For Example'.cyan
-    sleep(0.5)
+    sleep 0.5
     puts 'If the secret code is:'
     puts '1234'
     puts 'and your guess was:'
     puts '1524'
     puts 'you will see the following result:'
     print '1'.green
-    sleep(0.5)
+    sleep 0.5
     print '5'.red
-    sleep(0.5)
+    sleep 0.5
     print '2'.white
-    sleep(0.5)
+    sleep 0.5
     print '4'.green
     puts ''
     puts ''
-    sleep(1)
+    sleep 1
     puts 'LET THE GAME BEGIN'.yellow
     puts ''
     puts "Each digit should be between 1 and #{@max_range}".yellow
-    sleep(0.5)
+    sleep 0.5
     puts "You have 4 rounds in which to guess the correct #{@combination_size} digit combination".cyan
   end
 
@@ -93,8 +106,7 @@ class Game
   end
 
   def valid_input?
-    @largest_combination = @max_range.to_s * @combination_size
-    if @player_combination =~ /[1-#{@max_range}][1-#{@max_range}][1-#{@max_range}][1-#{@max_range}]/ && @player_combination.length == @combination_size
+    if @player_combination =~ /^[1-#{@max_range}]{#{@combination_size}}$/
       @valid = true
     else
       @valid = false
@@ -104,18 +116,18 @@ class Game
   end
 
   def analyze
-    @index = 0
+    index = 0
     puts 'Round results:'
     print ' '
     @combination_size.times do
-      if @combination[@index] == @player_combination[@index]
-        print @player_combination[@index].green
-      elsif @combination.include? @player_combination[@index]
-        print @player_combination[@index].white
+      if @combination[index] == @player_combination[index]
+        print @player_combination[index].green
+      elsif @combination.include? @player_combination[index]
+        print @player_combination[index].white
       else
-        print @player_combination[@index].red
+        print @player_combination[index].red
       end
-      @index += 1
+      index += 1
     end
     puts ''
   end
@@ -130,15 +142,16 @@ class Game
   end
 
   def game_over?
-    @game_over = if @combination == @player_combination || @current_round >= 4
+    @winner = @combination == @player_combination
+    @game_over = if @winner || @current_round >= 4
                    true
                  else
                    false
                  end
   end
 
-  def game_won?
-    if @combination == @player_combination
+  def determine_winner
+    if @winner
       puts ''
       puts ''
       puts 'Good Job! You cracked the code!'.green
@@ -149,21 +162,16 @@ class Game
     end
   end
 
-  def restart?
-    puts 'Would you like a rematch?'
+  def restart_prompt
+    puts 'Would you like to restart the game?'
     puts 'Enter Y or N'
-    @restart = gets.chomp.upcase
-    game_restart if @restart == 'Y'
+    @response = gets.chomp.upcase
   end
 
-  def game_restart
-    # cannot clear console at such time in Repl.it
-    # puts `clear`
-
-    initialize
-    game_start
+  def restart_game?
+    @restart = @response == 'Y'
   end
 end
 
 game = Game.new
-game.game_start
+game.game_run
