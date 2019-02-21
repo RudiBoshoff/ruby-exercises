@@ -23,3 +23,8 @@ Add your new methods onto the existing Enumerable module. Ruby makes this easy f
 Quick Tips:
 
 Remember yield and the #call method.
+
+
+PROJECT: TESTING YOUR RUBY CODE https://www.theodinproject.com/courses/ruby-programming/lessons/testing-your-ruby-code
+
+Go back to the Advanced Building Blocks Project and write tests for any 6 of the enumerable methods you wrote there. In this case, identify several possible inputs for each of those functions and test to make sure that your implementation of them actually makes the tests pass. Be sure to try and cover some of the odd edge cases where you can.
