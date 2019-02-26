@@ -1,4 +1,7 @@
 class TicTacToe
+  # tried to get _spec to see variables
+  # attr_accessor :position, :board, :player1_turn
+
   PLAYER1 = 'X'.freeze
   PLAYER2 = 'O'.freeze
 
@@ -32,7 +35,7 @@ class TicTacToe
     @restart ? restart_game : end_game
   end
 
-  private
+  # private
 
   # DETERMINES WHO's TURN IT IS
   def determine_turn
@@ -154,5 +157,5 @@ class TicTacToe
 end
 
 puts 'Welcome to TIC TAC TOE'
-a = TicTacToe.new
-a.play_game
+# a = TicTacToe.new
+# a.play_game
