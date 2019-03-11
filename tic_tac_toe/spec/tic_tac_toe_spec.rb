@@ -1,56 +1,41 @@
 require './tic_tac_toe'
 
-# TODO:
+describe 'TicTacToe' do
+  before(:each) do
+    @game = TicTacToe.new
+  end
 
-describe "TicTacToe" do
-  game = TicTacToe.new
-  # test to see if board generated correctly
-  describe  "#initialize" do
-    it "returns a 3 by 3 grid" do
-      expect(@board).to match_array([1,2,3,4,5,6,7,8,9])
+  describe '#generate_board' do
+    context 'test to see if board generated correctly' do
+      it 'returns a 3 by 3 grid' do
+        expect(@game.generate_board).to match_array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+      end
     end
   end
 
-  # test to see if turns alternate
-  describe  "#determine_turn" do
-    it "returns current player's turn" do
-      @player1_turn = true
-      expect(game.determine_turn).to eql("It is X's turn")
+  describe '#determine_turn' do
+    context 'test to see if turns alternate' do
+      it "returns X's turn" do
+        expect(@game.determine_turn(true)).to eql("It is X's turn")
+      end
+
+      it "returns O's turn" do
+        expect(@game.determine_turn(false)).to eql("It is O's turn")
+      end
     end
   end
 
-  describe  "#determine_turn" do
-    it "returns current player's turn" do
-      @player1_turn = false
-      expect(game.determine_turn).to eql("It is O's turn")
+  describe '#move_valid?' do
+    before(:each) do
+      @board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     end
-  end
 
-  # test to check if input is valid
-  describe "#player_move" do
-    it "accepts only integers" do
-      expect(@position).to be_a(Integer)
+    it 'should return true' do
+      expect(@game.move_valid?(2, @board)).to be true
     end
-  end
-  # test to see if move valid
-  describe "#move_valid?}" do
-    it "returns true if ..." do
-      expect(game.move_valid?).to eql(true)
+
+    it 'should return false' do
+      expect(@game.move_valid?(10, @board)).to be false
     end
   end
 end
-
-
-
-
-
-
-# test to check win conditions
-    # 1. three in a row horizontal
-    # 2. three in a row vertical
-    # 3. three in a row diagonal
-    # 4. no three in a row (draw/ tie)
-
-# test to ensure game over
-
-# test for game restart

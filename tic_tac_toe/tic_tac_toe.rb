@@ -1,6 +1,5 @@
 class TicTacToe
-  # tried to get _spec to see variables
-  # attr_accessor :position, :board, :player1_turn
+  attr_accessor :board
 
   PLAYER1 = 'X'.freeze
   PLAYER2 = 'O'.freeze
@@ -8,25 +7,29 @@ class TicTacToe
   def initialize(player1 = 'Player 1', player2 = 'Player 2')
     @player1_name = player1
     @player2_name = player2
-    @board = (1..9).to_a
     @player1_turn = true
     @turn_count = 0
     @three_in_row = false
     @valid = true
   end
 
+  def generate_board
+    @board = (1..9).to_a
+  end
+
   # STARTS GAME
   def play_game
+    generate_board
     show_board
     while @turn_count < 9 && !@three_in_row
-      determine_turn
+      puts determine_turn(@player1_turn)
       player_move
-      move_valid?
+      move_valid?(@position, @board)
       if @valid
         set_board_position
         increase_turn
         win?
-        toggle_turn
+        toggle_turn(@player1_turn)
       end
       show_board
     end
@@ -38,13 +41,13 @@ class TicTacToe
   # private
 
   # DETERMINES WHO's TURN IT IS
-  def determine_turn
-    @player = if @player1_turn
+  def determine_turn(player1_turn)
+    @player = if player1_turn
                 PLAYER1
               else
                 PLAYER2
               end
-    puts "It is #{@player}'s turn"
+    "It is #{@player}'s turn"
   end
 
   # PLAYER SELECTS POSITION OF PIECE
@@ -54,14 +57,15 @@ class TicTacToe
   end
 
   # DETERMINES IF MOVE IS VALID
-  def move_valid?
-    if @board[@position - 1] == PLAYER1 || @board[@position - 1] == PLAYER2
-      @valid = false
-    elsif @position.to_i.between?(1, 9)
-      @valid = true
-    else
-      @valid = false
-    end
+  def move_valid?(position, board)
+    board_location = board[position - 1]
+    @valid = if board_location == PLAYER1 || board_location == PLAYER2
+               false
+             elsif position.to_i.between?(1, 9)
+               true
+             else
+               false
+             end
   end
 
   # PLACES PIECE ON BOARD IN SELCETED POSITION
@@ -96,8 +100,8 @@ class TicTacToe
   end
 
   # AFTER EACH VALID MOVE IT BECOMES THE NEXT PLAYER'S MOVE
-  def toggle_turn
-    @player1_turn = !@player1_turn
+  def toggle_turn(player1_turn)
+    @player1_turn = !player1_turn
   end
 
   # SHOWS BOARD
@@ -138,11 +142,11 @@ class TicTacToe
     puts 'Would you like to play again?'
     puts 'Y/N?'
     response = gets.chomp
-    if response.upcase == 'Y'
-      @restart = true
-    else
-      @restart = false
-    end
+    @restart = if response.casecmp('Y').zero?
+                 true
+               else
+                 false
+               end
   end
 
   # RESTARTS GAME
@@ -156,6 +160,6 @@ class TicTacToe
   end
 end
 
-puts 'Welcome to TIC TAC TOE'
+# puts 'Welcome to TIC TAC TOE'
 # a = TicTacToe.new
 # a.play_game
