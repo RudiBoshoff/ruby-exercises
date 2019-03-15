@@ -1,7 +1,7 @@
 class ConnectFour
   def initialize
-    @player1 = "\u23FA" # white
-    @player2 = "\u26AA" # black
+    @player1 = "\u26AA" # white
+    @player2 = "\u26AB" # black
 
     @game_over = false
     @turn = @player1
@@ -19,10 +19,10 @@ class ConnectFour
 
   def display_board(board)
     width = board.flatten.max.to_s.size
-    puts board.map { |a| a.map { |i| " "+ i.to_s + " "}.join}
+    puts board.map { |a| a.map { |i| " " + i.to_s + " "}.join}
     puts "\n"
     labels = ["A","B","C","D","E","F","G"]
-    puts labels.map{ |i| " "+ i.to_s + " ".rjust(2)}.join
+    puts labels.map{ |i| " " + i.to_s + " ".rjust(2)}.join
   end
 
   def clear_display
@@ -77,7 +77,7 @@ end
    puts welcome_message
    generate_board
    display_board(@board)
-   set_player_turn
+   # set_player_turn
    puts "It is #{@turn.force_encoding('utf-8')}'s turn'"
    player_move
    validate_move
