@@ -1,6 +1,6 @@
 class ConnectFour
   def initialize
-    @player1 = "\u26AB" # white
+    @player1 = "\u23FA" # white
     @player2 = "\u26AA" # black
 
     @game_over = false
@@ -13,24 +13,16 @@ class ConnectFour
   end
 
   def generate_board
-    @board = []
-    temp = []
     blank = "\u26F6 "
-    7.times do
-      temp << blank.force_encoding('utf-8')
-    end
-
-    6.times do
-      @board << temp
-    end
+    @board = Array.new(6) {Array.new(7, blank.force_encoding('utf-8'))}
   end
 
   def display_board(board)
-    width = board.flatten.max.to_s.size+2
-    puts board.map { |a| a.map { |i| i.to_s.rjust(width) }.join }
+    width = board.flatten.max.to_s.size
+    puts board.map { |a| a.map { |i| " "+ i.to_s + " "}.join}
     puts "\n"
     labels = ["A","B","C","D","E","F","G"]
-    puts labels.map{ |i| i.to_s.rjust(width) }.join
+    puts labels.map{ |i| " "+ i.to_s + " ".rjust(2)}.join
   end
 
   def clear_display
