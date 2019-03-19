@@ -139,6 +139,19 @@ class Game
   end
 
   def four_in_row?
+    (0..5).each do |row|
+      (0..3).each do |col|
+        if @board.grid[row][col] == @board.grid[row][col + 1] && @board.grid[row][col + 1] == @board.grid[row][col + 2] && @board.grid[row][col + 2] == @board.grid[row][col + 3]
+          if @board.grid[row][col] == @player1.piece
+            puts 'Player 1 is the winner'
+            return true
+          elsif @board.grid[row][col] == @player2.piece
+            puts 'Player 2 is the winner'
+            return true
+          end
+        end
+      end
+    end
     false
   end
 
