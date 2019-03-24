@@ -1,5 +1,5 @@
-require_relative "player"
-require_relative "board"
+require_relative 'player'
+require_relative 'board'
 
 class Game
   def initialize
@@ -93,8 +93,8 @@ class Game
   end
 
   def place_piece(row, col)
-    @board.grid[row][col] = @turn
     @moves += 1
+    @board.grid[row][col] = @turn
   end
 
   def game_end?
@@ -125,8 +125,8 @@ class Game
     (0..2).each do |row|
       (0..6).each do |col|
         if @board.grid[row][col] == @board.grid[row + 1][col] &&
-          @board.grid[row + 1][col] == @board.grid[row + 2][col] &&
-          @board.grid[row + 2][col] == @board.grid[row + 3][col]
+           @board.grid[row + 1][col] == @board.grid[row + 2][col] &&
+           @board.grid[row + 2][col] == @board.grid[row + 3][col]
           if @board.grid[row][col] == @player1.piece
             return true
           elsif @board.grid[row][col] == @player2.piece
@@ -144,11 +144,11 @@ class Game
         if @board.grid[row][col] == @board.grid[row][col + 1] &&
            @board.grid[row][col + 1] == @board.grid[row][col + 2] &&
            @board.grid[row][col + 2] == @board.grid[row][col + 3]
-           if @board.grid[row][col] == @player1.piece
-             return true
-           elsif @board.grid[row][col] == @player2.piece
-             return true
-           end
+          if @board.grid[row][col] == @player1.piece
+            return true
+          elsif @board.grid[row][col] == @player2.piece
+            return true
+          end
         end
       end
     end
@@ -158,28 +158,28 @@ class Game
   def four_in_diagonal?
     (0..2).each do |row|
       (0..3).each do |col|
-        if @board.grid[row][col] == @board.grid[row+1][col+1] &&
-           @board.grid[row+1][col+1] == @board.grid[row+2][col+2] &&
-           @board.grid[row+2][col+2] == @board.grid[row+3][col+3]
-           if @board.grid[row][col] == @player1.piece
-             return true
-           elsif @board.grid[row][col] == @player2.piece
-             return true
-           end
+        if @board.grid[row][col] == @board.grid[row + 1][col + 1] &&
+           @board.grid[row + 1][col + 1] == @board.grid[row + 2][col + 2] &&
+           @board.grid[row + 2][col + 2] == @board.grid[row + 3][col + 3]
+          if @board.grid[row][col] == @player1.piece
+            return true
+          elsif @board.grid[row][col] == @player2.piece
+            return true
+          end
         end
       end
     end
 
     (0..2).each do |row|
-      (6.downto(3)).each do |col|
-        if @board.grid[row][col] == @board.grid[row+1][col-1] &&
-           @board.grid[row+1][col-1] == @board.grid[row+2][col-2] &&
-           @board.grid[row+2][col-2] == @board.grid[row+3][col-3]
-           if @board.grid[row][col] == @player1.piece
-             return true
-           elsif @board.grid[row][col] == @player2.piece
-             return true
-           end
+      6.downto(3).each do |col|
+        if @board.grid[row][col] == @board.grid[row + 1][col - 1] &&
+           @board.grid[row + 1][col - 1] == @board.grid[row + 2][col - 2] &&
+           @board.grid[row + 2][col - 2] == @board.grid[row + 3][col - 3]
+          if @board.grid[row][col] == @player1.piece
+            return true
+          elsif @board.grid[row][col] == @player2.piece
+            return true
+          end
         end
       end
     end
@@ -197,5 +197,5 @@ class Game
   end
 end
 
-game = Game.new
-game.start
+# game = Game.new
+# game.start
